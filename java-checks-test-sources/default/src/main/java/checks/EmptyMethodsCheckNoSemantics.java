@@ -2,6 +2,7 @@ package checks;
 
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.cache.annotation.CacheEvict;
 
 class EmptyMethodsCheckNoSemantics {
   class A {
@@ -186,12 +187,22 @@ class EmptyMethodsCheckNoSemantics {
 
   private class ExceptionalCompliantCases {
     @org.aspectj.lang.annotation.Pointcut()
+    // Compliant
     void foo() {
 
     }
 
     @Pointcut()
+    // Compliant
     void bar() {}
+
+    @org.springframework.cache.annotation.CacheEvict(cacheNames = "flowers", allEntries = true)
+    // Compliant
+    void evictAll() {}
+
+    @CacheEvict(value = "flowers", key = "{#name}")
+    // Compliant
+    void evict(String name) {}
 
     @Before("")
     void stillTriggerOnOtherAnnotations() {} // Noncompliant
