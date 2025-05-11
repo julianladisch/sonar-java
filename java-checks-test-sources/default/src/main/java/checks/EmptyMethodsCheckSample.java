@@ -2,6 +2,7 @@ package checks;
 
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.cache.annotation.CacheEvict;
 
 class EmptyMethodsCheckSample {
   class A {
@@ -193,6 +194,12 @@ class EmptyMethodsCheckSample {
     @Pointcut()
     void bar() {}
 
+    @org.springframework.cache.annotation.CacheEvict(cacheNames = "flowers", allEntries = true)
+    void evictAll() {}
+
+    @CacheEvict(value = "flower", key = "{#name}")
+    void evict(String name) {}
+    
     @Before("")
     void stillTriggerOnOtherAnnotations() {} // Noncompliant
   }
