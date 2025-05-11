@@ -11,4 +11,32 @@ jobs:
         java-version: '23'
         distribution: 'temurin'
         cache: maven
-    - run: mvn -B package
+    - run: mvn -B clean install
+    - run: pwd
+    - run: ls -al /home/user
+    - run: |
+        cat <<'EOF' > /home/runner/work/orchestrator.properties
+        # version of SonarQube Server
+        sonar.runtimeVersion=LATEST_RELEASE
+  
+        orchestrator.updateCenterUrl=http://update.sonarsource.org/update-center-dev.properties
+  
+        # The location of the Maven local repository is not automatically guessed. It can also be set with the env variable MAVEN_LOCAL_REPOSITORY.
+        maven.localRepository=/home/runner/.m2/repository
+        EOF
+    - run: cat orchestrator.properties
+    - run: mvn clean install -P sanity
+      env:
+        ORCHESTRATOR_CONFIG_URL: file:///home/runner/work/orchestrator.properties
+    - run: mvn clean install -Pit-plugin -DcommunityEditionTestsOnly=true
+      env:
+        ORCHESTRATOR_CONFIG_URL: file:///home/runner/work/orchestrator.properties
+    - uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+    - run: git submodule update --init --recursive
+    - run: mvn clean install -Pit-ruling -DcommunityEditionTestsOnly=true
+      env:
+        ORCHESTRATOR_CONFIG_URL: file:///home/runner/work/orchestrator.properties
