@@ -187,17 +187,21 @@ class EmptyMethodsCheckSample {
 
   private class ExceptionalCompliantCases {
     @org.aspectj.lang.annotation.Pointcut()
+    // Compliant
     void foo() {
 
     }
 
     @Pointcut()
+    // Compliant
     void bar() {}
 
     @org.springframework.cache.annotation.CacheEvict(cacheNames = "flowers", allEntries = true)
+    // Compliant
     void evictAll() {}
 
     @CacheEvict(value = "flowers", key = "{#name}")
+    // Compliant
     void evict(String name) {}
     
     @Before("")
