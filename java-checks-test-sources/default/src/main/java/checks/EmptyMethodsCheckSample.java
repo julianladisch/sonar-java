@@ -198,7 +198,7 @@ class EmptyMethodsCheckSample {
     void evictAll() {}  // Compliant
 
     @CacheEvict(value = "flowers", key = "{#name}")
-    void evict(String name) {}  // Noncompliant
+    void evict(String name) {}  // Compliant
     
     @Before("")
     void stillTriggerOnOtherAnnotations() {} // Noncompliant
