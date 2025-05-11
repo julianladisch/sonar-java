@@ -197,7 +197,7 @@ class EmptyMethodsCheckSample {
     @org.springframework.cache.annotation.CacheEvict(cacheNames = "flowers", allEntries = true)
     void evictAll() {}
 
-    @CacheEvict(value = "flower", key = "{#name}")
+    @CacheEvict(value = "flowers", key = "{#name}")
     void evict(String name) {}
     
     @Before("")
