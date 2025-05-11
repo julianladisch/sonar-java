@@ -187,22 +187,18 @@ class EmptyMethodsCheckNoSemantics {
 
   private class ExceptionalCompliantCases {
     @org.aspectj.lang.annotation.Pointcut()
-    // Compliant
-    void foo() {
+    void foo() {  // Compliant
 
     }
 
     @Pointcut()
-    // Compliant
-    void bar() {}
+    void bar() {}  // Compliant
 
     @org.springframework.cache.annotation.CacheEvict(cacheNames = "flowers", allEntries = true)
-    // Compliant
-    void evictAll() {}
+    void evictAll() {}  // Compliant
 
     @CacheEvict(value = "flowers", key = "{#name}")
-    // Compliant
-    void evict(String name) {}
+    void evict(String name) {}  // Compliant
 
     @Before("")
     void stillTriggerOnOtherAnnotations() {} // Noncompliant
