@@ -12,8 +12,6 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - run: mvn -B clean install
-    - run: pwd
-    - run: ls -al /home/user
     - run: |
         cat <<'EOF' > /home/runner/work/orchestrator.properties
         # version of SonarQube Server
@@ -24,7 +22,7 @@ jobs:
         # The location of the Maven local repository is not automatically guessed. It can also be set with the env variable MAVEN_LOCAL_REPOSITORY.
         maven.localRepository=/home/runner/.m2/repository
         EOF
-    - run: cat orchestrator.properties
+    - run: cat /home/runner/work/orchestrator.properties
     - run: mvn clean install -P sanity
       env:
         ORCHESTRATOR_CONFIG_URL: file:///home/runner/work/orchestrator.properties
