@@ -21,6 +21,7 @@ jobs:
         # The location of the Maven local repository is not automatically guessed. It can also be set with the env variable MAVEN_LOCAL_REPOSITORY.
         maven.localRepository=/home/runner/.m2/repository
         EOF
-    - run: mvn clean install -P sanity
+    - run: mvn clean install | tee out
       env:
         ORCHESTRATOR_CONFIG_URL: file:///home/runner/work/orchestrator.properties
+    - run: tail -1000 out
