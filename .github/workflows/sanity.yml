@@ -6,6 +6,7 @@ jobs:
     runs-on: ubuntu-26.04-arm
     permissions:
       contents: read
+    timeout-minutes: 20
     steps:
     - uses: actions/checkout@v7
     - uses: actions/setup-java@v6
@@ -13,7 +14,18 @@ jobs:
         java-version: '26'
         distribution: 'temurin'
         cache: maven
-    - run: mvn -B clean install -P sanity
+    - run: |
+        cat <<'EOF' > /home/runner/work/orchestrator.properties
+        # version of SonarQube Server
+        sonar.runtimeVersion=LATEST_RELEASE
+  
+        orchestrator.updateCenterUrl=http://update.sonarsource.org/update-center-dev.properties
+
+        # The location of the Maven local repository is not automatically guessed. It can also be set with the env variable MAVEN_LOCAL_REPOSITORY.
+        maven.localRepository=/home/runner/.m2/repository
+        EOF
+    - run: mvn clean install | tee -a out
       env:
-        JAVA_TOOL_OPTIONS: ""
+        ORCHESTRATOR_CONFIG_URL: file:///home/runner/work/orchestrator.properties
         MAVEN_OPTS: "-Xmx8g"
+    - run: tail -1000 out
