@@ -11,6 +11,6 @@ jobs:
     - uses: actions/setup-java@v6
       with:
         java-version: '26'
-        distribution: 'temurin'
+        distribution: 'corretto'
         cache: maven
     - run: mvn -B clean install -P sanity
