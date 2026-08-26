@@ -24,11 +24,8 @@ jobs:
         # The location of the Maven local repository is not automatically guessed. It can also be set with the env variable MAVEN_LOCAL_REPOSITORY.
         maven.localRepository=/home/runner/.m2/repository
         EOF
-    - run: |
-        cd java-checks-test-sources
-        mvn install | tee -a out
-        cd ../java-checks
-        mvn install | tee -a out
+    - run: sed -i 's!<module>sonar-java-plugin</module>!!' pom.xml
+    - run: mvn install | tee -a out
       env:
         ORCHESTRATOR_CONFIG_URL: file:///home/runner/work/orchestrator.properties
         MAVEN_OPTS: "-Xmx8g"
